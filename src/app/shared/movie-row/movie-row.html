@@ -1,0 +1,24 @@
+<div class="row-wrapper mt-4">
+  <div class="row-header">
+    <h2 class="row-title">{{ title }}</h2>
+    @if (tabOptions.length) {
+      <p-selectbutton
+        [options]="tabOptions"
+        [(ngModel)]="activeTab"
+        (ngModelChange)="activeTabChange.emit($event)"
+        optionLabel="label"
+        optionValue="value"
+      ></p-selectbutton>
+    }
+  </div>
+
+  <div class="movie-row" #scrollRow>
+    @for (movie of movies; track movie.id) {
+      <div class="movie-card">
+        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+        <p class="font-bold">{{ movie.title }}</p>
+      </div>
+    }
+  </div>
+</div>
+

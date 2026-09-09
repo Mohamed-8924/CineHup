@@ -1,0 +1,23 @@
+<div class="movies-page">
+  <div class="movies-header">
+    <h1>{{ selectedCategoryLabel() }}</h1>
+    <p-selectbutton
+      [options]="categoriOptions"
+      [ngModel]="selectedCategorys()"
+      (ngModelChange)="onCategoryChange($event)"
+      optionLabel="label"
+      optionValue="value"
+    ></p-selectbutton>
+  </div>
+  <div class="movies-grid">
+    @for (movie of categoryMovies()?.results; track movie.id) {
+      <div class="movie-card">
+        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+        <p class="font-bold">{{ movie.title }}</p>
+        <p class="release-date">{{ movie.release_date | date: 'mediumDate' }}</p>
+      </div>
+    } @empty {
+      <P>Loading...</P>
+    }
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<section
+  class="hero-banner"
+  [style.background-image]="
+    'url(https://image.tmdb.org/t/p/original' + heroMovie()?.backdrop_path + ')'
+  "
+>
+  <div>
+    <h1>Welcome.</h1>
+    <p>Millions of movies, TV shows and people to discover. Explore now.</p>
+  </div>
+  <div class="hero-search">
+    <input
+      id="hero-search"
+      type="text"
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="onSearch()"
+      placeholder="Search for a movie, tv show, person......"
+    />
+    <button (click)="onSearch()">Search</button>
+  </div>
+</section>
+
+<app-movie-row
+  title="Trending"
+  [movies]="trendingMovies()?.results ?? []"
+  [tabOptions]="timeWindowOptions"
+  [activeTab]="selectedTimeWindow()"
+  (activeTabChange)="onTrendingTabChange($event)"
+></app-movie-row>
+
+@defer (on viewport) {
+  <section class="trailers-section">
+    <div class="trailers-header">
+      <h2>Latest Trailers</h2>
+      <p-selectbutton
+        [options]="trailerFilterOptions"
+        [ngModel]="selectedTrailerFilter()"
+        (ngModelChange)="selectedTrailerFilter.set($event)"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </div>
+    <div class="trailer-cards">
+      @for (movie of trailerMovies(); track movie.id) {
+        <div class="trailer-card" (click)="openTrailer(movie.id)">
+          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+          <div class="play-icon">▶</div>
+
+          <p>{{ movie.title }}</p>
+        </div>
+      }
+    </div>
+  </section>
+} @placeholder {
+  <div class="skeleton-trailers"></div>
+} @loading {
+  <div class="loading-spinner">جاري التحميل...</div>
+}
+@if (selectedVideoKey()) {
+  <div class="video-modal-overlay" (click)="closeTrailer()">
+    <div class="video-modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeTrailer()">✕</button>
+      <iframe
+        [src]="getSafeUrl(selectedVideoKey())"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+}
+
+@defer (on viewport) {
+  <app-movie-row
+    title="What's Popular"
+    [movies]="popularMovies()?.results ?? []"
+    [tabOptions]="popularFilterOptions"
+    [activeTab]="selectedPopularFilter()"
+    (activeTabChange)="onPopularTabChange($event)"
+  ></app-movie-row>
+} @placeholder {
+  <div class="skeleton-trailers"></div>
+} @loading {
+  <div class="loading-spinner">جاري التحميل...</div>
+}
+
+@defer (on viewport) {
+  <app-movie-row
+    title="Free To Watch"
+    [movies]="freeMovies()?.results ?? []"
+    [tabOptions]="freeFilterOptions"
+    [activeTab]="selectedFreeFilter()"
+    (activeTabChange)="onFreeTabChange($event)"
+  ></app-movie-row>
+} @placeholder {
+  <div class="skeleton-trailers"></div>
+} @loading {
+  <div class="loading-spinner">جاري التحميل...</div>
+}
+
+@defer (on viewport) {
+  <section class="leaderboard m-5">
+    <div class="wrapper">
+      <div class="header flex">
+        <h2>Leaderboard</h2>
+        <ul class="legend">
+          <li class="legend-item total">All Time Edits</li>
+          <li class="legend-item weekly">Edits This Week</li>
+        </ul>
+      </div>
+
+      <div class="leaderboard-grid">
+        @for (user of users; track user.id) {
+          <div class="leaderboard-item">
+            <img [src]="user.avatar" [alt]="user.name" class="avatar" />
+            <div class="user-info">
+              <p class="username">{{ user.name }}</p>
+              <div class="progress-row total-row">
+                <div class="progress-track">
+                  <div class="progress-bar total" [style.width.%]="user.totalPercentage"></div>
+                </div>
+                <span class="count font-bold">{{ user.totalEdits | number }}</span>
+              </div>
+              <div class="progress-row weekly-row">
+                <div class="progress-track">
+                  <div class="progress-bar weekly" [style.width.%]="user.weeklyPercentage"></div>
+                </div>
+                <span class="count font-bold">{{ user.weeklyEdits | number }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+} @placeholder {
+  <div class="skeleton-trailers"></div>
+} @loading {
+  <div class="loading-spinner">جاري التحميل...</div>
+}

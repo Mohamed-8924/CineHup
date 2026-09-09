@@ -1,0 +1,46 @@
+<div class="card">
+  <p-menubar [model]="items">
+    <ng-template #start>
+      <div class="logo my-0 mx-2">
+        <i class="pi pi-video logo-icon"></i>
+        <span class="logo-text"> Cine<span class="accent">Hub</span> </span>
+      </div>
+    </ng-template>
+    <ng-template #item let-item let-root="root">
+      <a
+        [routerLink]="item?.['path']"
+        routerLinkActive="router-link-active"
+        pRipple
+        class="flex items-center px-4 py-3 cursor-pointer gap-2 p-menuitem-link text-white"
+      >
+        <span>{{ item.label }}</span>
+      </a>
+    </ng-template>
+    <ng-template #end>
+      <div class="flex items-center gap-2 mr-3">
+        <button class="search-icon-btn" (click)="goToSearch()"><i class="pi pi-search"></i></button>
+        <div class="user-menu-wrapper">
+          <p-avatar
+            icon="pi pi-user"
+            shape="circle"
+            class="cursor-pointer"
+            (click)="toggleUserMenu()"
+          />
+
+          @if (isUserMenuOpen) {
+            <div class="custom-dropdown">
+              <a routerLink="/profile" (click)="closeUserMenu()">
+                <i class="pi pi-user"></i> Profile
+              </a>
+              <a routerLink="/favorites" (click)="closeUserMenu()">
+                <i class="pi pi-heart"></i> Favorites
+              </a>
+              <hr />
+              <a (click)="logout(); closeUserMenu()"> <i class="pi pi-sign-out"></i> Logout </a>
+            </div>
+          }
+        </div>
+      </div>
+    </ng-template>
+  </p-menubar>
+</div>

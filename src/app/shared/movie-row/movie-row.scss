@@ -1,0 +1,95 @@
+.row-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin: 0 30px 10px;
+
+  .row-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    color: #032541;
+  }
+
+  ::ng-deep {
+    .p-selectbutton {
+      display: flex;
+      gap: 0.25rem;
+      border: 1px solid #032541;
+      border-radius: 30px;
+    }
+
+    .p-togglebutton {
+      background: transparent !important;
+      border: none !important;
+      border-radius: 999px !important;
+      padding: 0.4rem 1rem;
+      color: #032541;
+      font-weight: bold;
+
+      &:hover:not(.p-togglebutton-checked) {
+        background: rgba(3, 37, 65, 0.08) !important;
+      }
+    }
+
+    .p-togglebutton-checked {
+      background: #032541 !important;
+      border: none !important;
+
+      .p-togglebutton-content {
+        background-color: transparent !important;
+      }
+
+      .p-togglebutton-label {
+        color: #fff !important;
+        font-weight: bold;
+      }
+    }
+  }
+}
+//////////
+.movie-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 30px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+.movie-row::-webkit-scrollbar {
+  height: 10px;
+}
+
+.movie-row::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+.movie-row::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.movie-row::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+.movie-card {
+  flex: 0 0 auto;
+  width: 180px;
+  scroll-snap-align: start;
+  animation: fadeIn 0.35s ease-in both;
+}
+.movie-card img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,1 +1,78 @@
 /* You can add global styles to this file, and also import other style files */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  margin: 0;
+}
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding: {
+    left: 20px;
+    right: 20px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .container {
+    max-width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .container {
+    max-width: 740px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .container {
+    max-width: 980px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+
+  /* user-nav&footer.css */
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.03);
+}
+
+.logo-icon {
+  font-size: 1.6rem;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+.accent {
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
