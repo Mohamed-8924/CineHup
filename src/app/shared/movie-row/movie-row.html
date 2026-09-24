@@ -15,10 +15,20 @@
   <div class="movie-row" #scrollRow>
     @for (movie of movies; track movie.id) {
       <div class="movie-card">
-        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+        <div class="relative">
+          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+          <button (click)="onToggleFavorite(movie)" class="favorite-btn">
+            <i
+              class="pi cursor-pointer text-2xl"
+              [ngClass]="
+                favoritesService.isFavorite(movie.id) ? 'pi-heart-fill text-red-500' : 'pi-heart'
+              "
+            >
+            </i>
+          </button>
+        </div>
         <p class="font-bold">{{ movie.title }}</p>
       </div>
     }
   </div>
 </div>
-

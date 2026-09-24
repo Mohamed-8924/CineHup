@@ -6,6 +6,8 @@ a {
 
 body {
   margin: 0;
+  padding-top: 70px;
+  font-family: 'Source Sans 3', sans-serif;
 }
 .container {
   margin-left: auto;
@@ -75,4 +77,43 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+// in Component movie-detailes && faavorite
+.score {
+  display: inline-block;
+  background-color: #01b4e4;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.8);
 }

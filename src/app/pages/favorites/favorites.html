@@ -1,1 +1,84 @@
-<p>favorites works!</p>
+<div class="p-4">
+  <h2 class="text-3xl mb-6">My Favorites ❤️</h2>
+
+  <div
+    class="parent p-2 flex align-items-center gap-2 surface-100 border-1 border-round-2xl border-300 mb-3"
+  >
+    <button
+      class="child p-2 border-1 border-round-2xl border-300 cursor-pointer"
+      [ngClass]="
+        activeTap() === 'movie'
+          ? 'bg-surface-200 shadow-1'
+          : 'bg-transparent text-600 hover:surface-200 hover:text-900'
+      "
+      (click)="activeTap.set('movie')"
+    >
+      Movies <span>{{ movieCount() }}</span>
+    </button>
+    <button
+      class="child p-2 bg-white border-1 border-round-2xl border-300 cursor-pointer"
+      [ngClass]="
+        activeTap() === 'tv'
+          ? 'bg-surface-200 shadow-1'
+          : 'bg-transparent text-600 hover:surface-200 hover:text-900'
+      "
+      (click)="activeTap.set('tv')"
+    >
+      TV <span>{{ tvCount() }}</span>
+    </button>
+  </div>
+
+  @if (filterFavorite().length === 0) {
+    <div class="flex flex-column align-items-center justify-content-center mt-8 text-gray-800">
+      <i class="pi pi-heart-fill text-6xl mb-3 opacity-50"></i>
+      <h3 class="text-xl">مفيش افلام في المفضله اعرض ايه طب</h3>
+    </div>
+  } @else {
+    <div class="flex flex-column gap-4">
+      @for (movie of filterFavorite(); track movie.id) {
+        <div
+          class="overflow-hidden flex flex-column flex-nowrap md:flex-row bg-white-alpha-60 border-1 border-round-md border-300 rounded-lg shadow-sm overflow-hidden"
+        >
+          <!-- poster left -->
+          <img
+            [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+            class="image object-cover cursor-pointer"
+            [routerLink]="['/movies', movie.id]"
+          />
+
+          <!-- poster details  -->
+          <div class="flex-shrink-0 container p-3 justify-content-center flex flex-column flex-1">
+            <div class="flex align-items-center">
+              <div class="score mr-1">User Score: {{ movie.vote_average | number: '1.0-0' }}</div>
+
+              <div class="detailes ml-2">
+                <h2
+                  class="font-bold text-lg m-0 cursor-pointer"
+                  [routerLink]="['/movies', movie.id]"
+                >
+                  {{ movie.title }}
+                </h2>
+                <span class="text-gray-500 text-sm mt-1">{{ movie.release_date }}</span>
+              </div>
+            </div>
+            <p class="text-gray-700 text-sm mb-4 line-clamb-2 block">{{ movie.overview }}</p>
+
+            <div class="flex align-items-center gap-4 pt-3 border-top-1 border-round-md border-300">
+              <button
+                (click)="$event.stopPropagation(); favoritesService.toggleFavorite(movie)"
+                class="flex align-items-center border-none gap-2 text-pink-600 bg-transparent cursor-pointer hover:text-pink-800 transition-colors"
+              >
+                <div
+                  class="bg-pink-600 border-circle w-2rem h-2rem flex align-items-center justify-content-center hover:bg-pink-800 transition-colors"
+                >
+                  <i class="pi pi-heart-fill text-white text-sm"></i>
+                </div>
+                <span class="font-semibold text-sm">Remove Favorite</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -12,10 +12,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { FavoriteMovie, FavoritesMovieService } from '../../core/services/favorites';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie-row',
-  imports: [SelectButtonModule, FormsModule],
+  imports: [SelectButtonModule, FormsModule, CommonModule],
   templateUrl: './movie-row.html',
   styleUrl: './movie-row.scss',
 })
@@ -29,6 +31,7 @@ export class MovieRow implements OnChanges {
   @ViewChild('scrollRow') scrollRow!: ElementRef<HTMLDivElement>;
 
   private injector = inject(Injector);
+  public favoritesService = inject(FavoritesMovieService);
 
   ngOnChanges() {
     afterNextRender(
@@ -39,5 +42,9 @@ export class MovieRow implements OnChanges {
       },
       { injector: this.injector },
     );
+  }
+
+  onToggleFavorite(movie: FavoriteMovie) {
+    this.favoritesService.toggleFavorite(movie);
   }
 }

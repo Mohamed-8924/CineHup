@@ -1,0 +1,146 @@
+<aside class="filters-sidebar">
+  <div class="filter-card">
+    <div class="filter-header" (click)="toggleSection('sort')">
+      <h2>Sort</h2>
+      <span class="arrow" [class.open]="isSortOpen()">▼</span>
+    </div>
+
+    @if (isSortOpen()) {
+      <div class="filter-content">
+        <label>Sort Results By</label>
+        <div class="custom-select-wrapper">
+          <div
+            class="custom-select-display"
+            (click)="toggleCustomSelect()"
+            [class.focused]="isCustomSelectOpen()"
+          >
+            {{ selectedSort()?.label }}
+            <span class="select-arrow">▼</span>
+          </div>
+          @if (isCustomSelectOpen()) {
+            <ul class="custom-select-list">
+              @for (option of sortOptions(); track option.value) {
+                <li
+                  (click)="selectOption(option)"
+                  [class.selected]="option.value === selectedSort()?.value"
+                >
+                  {{ option.label }}
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="filter-card">
+    <div class="filter-header" (click)="toggleSection('filters')">
+      <h2>Filters</h2>
+      <span class="arrow" [class.open]="isFiltersOpen()">▼</span>
+    </div>
+
+    @if (isFiltersOpen()) {
+      <div class="filter-content">
+        <div class="filter-group">
+          <label>{{ mediaType() === 'movie' ? 'Releas Dates' : 'Air Dates' }}</label>
+          <div class="custom-select-wrapper">
+            <div class="head-check">
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="isAllReleasesChecked()"
+                  (change)="toggleReleases()"
+                />
+                <span>{{
+                  mediaType() === 'movie' ? 'Search All Releases?' : 'Search all episodes?'
+                }}</span>
+              </label>
+              <!-- لو متعلم عليه (True) -->
+              @if (mediaType() === 'movie' && isAllReleasesChecked()) {
+                <div class="extra-checkboxes">
+                  @for (type of releaseTypes(); track type.id) {
+                    <div class="checkbox-item">
+                      <label>
+                        <input
+                          type="checkbox"
+                          [checked]="type.checked"
+                          (change)="toggleReleaseType(type.id)"
+                        />
+                        <span>{{ type.label }} </span>
+                      </label>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="dates-container">
+              <div class="date-field">
+                <label class="date-label" for="formDate">from</label>
+                <input type="date" class="date-input" id="formDate" [value]="fromDate()" />
+              </div>
+              <div class="date-field">
+                <label class="date-label" for="toDate">to</label>
+                <input type="date" class="date-input" id="toDate" [value]="toDate()" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group bord-top">
+          <label>Genres</label>
+          <div class="genres-wrapper">
+            @for (genre of genresTypes(); track genre.id) {
+              <div class="genre-item">
+                <button
+                  class="genre-btn"
+                  (click)="toggleGenresType(genre.id)"
+                  [class.selected]="genre.checked"
+                >
+                  {{ genre.label }}
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>User Score</label>
+          <div class="genres-wrapper">
+            <div class="range-slider-container">
+              <div class="slider-track-background"></div>
+              <div
+                class="slider-track-active"
+                [style.left.%]="minPercent()"
+                [style.width.%]="maxPercent() - minPercent()"
+              ></div>
+              <input
+                class="one"
+                type="range"
+                [min]="minLimit"
+                [max]="maxLimit"
+                step="1"
+                [value]="minScore()"
+                (input)="updateMin($event)"
+              />
+              <input
+                class="two"
+                type="range"
+                [min]="minLimit"
+                [max]="maxLimit"
+                step="1"
+                [value]="maxScore()"
+                (input)="updateMax($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="search-btn-wrapper">
+    <button class="search-btn" (click)="onSearch()" [disabled]="!hasChange()">Search</button>
+  </div>
+</aside>

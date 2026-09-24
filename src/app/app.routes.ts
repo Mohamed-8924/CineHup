@@ -14,11 +14,16 @@ export const routes: Routes = [
       {
         path: 'movies/:id',
         loadComponent: () =>
-          import('./pages/movie-details/movie-details').then((c) => c.MovieDetails),
+          import('./shared/media-details/media-details').then((c) => c.MediaDetails),
       },
       {
         path: 'tv-shows',
         loadComponent: () => import('./pages/tv-shows/tv-shows').then((c) => c.TVShows),
+      },
+      {
+        path: 'tv-shows/:id',
+        loadComponent: () =>
+          import('./shared/media-details/media-details').then((c) => c.MediaDetails),
       },
 
       {

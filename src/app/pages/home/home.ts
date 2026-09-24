@@ -4,42 +4,40 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { LeaderboardUser, Movie } from '../../core/interfaces/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieRow } from '../../shared/movie-row/movie-row';
 import { MOCK_LEADERBOARD_USERS } from '../../shared/mock-data/leaderboard';
 import { CommonModule } from '@angular/common';
+import { FavoriteMovie, FavoritesMovieService } from '../../core/services/favorites';
 @Component({
   selector: 'app-home',
   imports: [FormsModule, SelectButtonModule, MovieRow, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnInit {
+export class Home {
   closeTrailer() {
     this.selectedVideoKey.set(null);
   }
   private movieService = inject(MovieService);
   private router = inject(Router);
   private routerAc = inject(ActivatedRoute);
+  public favoritesService = inject(FavoritesMovieService);
 
-  heroMovie = signal<any>(null);
-  movies = signal<any[]>([]);
   searchQuery = signal('');
 
   //navbar trailer section
   // first movie trending in the img
-  ngOnInit() {
-    this.movieService.getTrendingMovie().subscribe((res: any) => {
-      this.heroMovie.set(res.results[0]);
-    });
+  heroMovie = toSignal(this.movieService.getTrendingMovie().pipe(map((res) => res.results[0])), {
+    initialValue: null,
+  });
 
-    // Other popular movies
-    this.movieService.getPopularMovies().subscribe((res: any) => {
-      this.movies.set(res.results);
-    });
-  }
+  movies = toSignal(this.movieService.getPopularMovies().pipe(map((res) => res.results)), {
+    initialValue: [],
+  });
+
   onSearch() {
     const query = this.searchQuery().trim();
     if (query) {
@@ -160,26 +158,16 @@ export class Home implements OnInit {
     requst$.subscribe((res) => {
       this.trailerMovies.set(res.results);
       this.trailerVideos.set({});
-      this.loadTrailerVideos(res.results);
     });
   }
 
-  loadTrailerVideos(movies: Movie[]) {
-    movies.forEach((movie) => {
-      this.movieService.getMovieVideos(movie.id).subscribe((res) => {
-        const trailer = res.results.find((v: any) => v.site === 'YouTube' && v.type === 'Trailer');
-        if (trailer) {
-          this.trailerVideos.update((current) => ({ ...current, [movie.id]: trailer.key }));
-        }
-      });
-    });
-  }
   openTrailer(movieId: number) {
-    const key = this.trailerVideos()[movieId];
-    console.log('movieId:', movieId, 'key:', key, 'all videos:', this.trailerVideos());
-    if (key) {
-      this.selectedVideoKey.set(key);
-    }
+    this.movieService.getMovieVideos(movieId).subscribe((res: any) => {
+      const trailer = res.results.find((v: any) => v.site === 'YouTube' && v.type === 'Trailer');
+      if (trailer) {
+        this.selectedVideoKey.set(trailer.key);
+      }
+    });
   }
   clearTrailer() {
     this.selectedVideoKey.set(null);
@@ -191,4 +179,8 @@ export class Home implements OnInit {
   }
 
   users: LeaderboardUser[] = MOCK_LEADERBOARD_USERS;
-}  
+
+  toggleFavorite(movie: FavoriteMovie) {
+    this.favoritesService.toggleFavorite(movie);
+  }
+}

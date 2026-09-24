@@ -27,14 +27,14 @@
   h1 {
     font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
 
   p {
     font-size: 2rem;
     max-width: 600px;
     font-weight: 600;
-    margin: 0 auto 25px;
+    margin: 0 auto 20px;
     opacity: 0.9;
   }
 }
@@ -71,48 +71,7 @@
   }
 }
 
-//////////////////////
-
-// .movies-grid {
-//   display: flex;
-//   gap: 1rem;
-//   overflow-x: auto;
-//   overflow-y: hidden;
-//   padding-bottom: 1rem;
-//   scrollbar-width: thin;
-
-//   .movie-card {
-//     flex: 0 0 auto;
-//     width: 180px;
-//     animation: fadeIn 0.35s ease-in both;
-
-//     img {
-//       width: 100%;
-//       display: block;
-//       border-radius: 6px;
-//     }
-//     p {
-//       font-weight: bold;
-//     }
-//   }
-//   @for $i from 1 through 20 {
-//     .movie-card:nth-child(#{$i}) {
-//       animation-delay: #{$i * 0.03}s;
-//     }
-//   }
-// }
-
-// @keyframes fadeIn {
-//   from {
-//     opacity: 0;
-//     transform: translateY(6px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }
-
+////////////////////////
 .trailers-section {
   background-color: #032541;
   padding: 30px 20px;
@@ -138,39 +97,70 @@
     }
 
     .p-togglebutton {
+      position: relative;
       background: transparent !important;
       border: none !important;
       border-radius: 999px !important;
-      padding: 0.5rem 1rem;
+      padding: 2px 10px;
       color: rgba(255, 255, 255, 0.7);
+      overflow: hidden; /* عشان الجراديانت ميطلعش بره الحواف المدورة */
 
+      /* طبقة الجراديانت المخفية */
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgb(192, 254, 207) 0%, rgb(30, 213, 169) 100%);
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out; /* سرعة النعومة */
+        z-index: 0; /* خليناه 0 بدل -1 عشان ميختفيش خالص */
+      }
+
+      /* بنرفع المحتوى (الكلمة) فوق طبقة الجراديانت */
+      .p-togglebutton-content,
+      .p-togglebutton-label {
+        position: relative;
+        z-index: 1;
+        transition: color 0.5s ease-in-out !important;
+        background-color: transparent !important;
+      }
+
+      /* حالة الهوفر العادية */
       &:hover:not(.p-togglebutton-checked) {
         background: rgba(255, 255, 255, 0.08) !important;
         color: #fff;
       }
-    }
 
-    .p-togglebutton-checked {
-      background: linear-gradient(
-        to right,
-        rgb(192, 254, 207) 0%,
-        rgb(30, 213, 169) 100%
-      ) !important;
-      border: none !important;
+      /* حالة التفعيل لما تدوس على الزرار (لاحظ كتبنا & قبل الكلاس) */
+      &.p-togglebutton-checked {
+        background: transparent !important;
 
-      .p-togglebutton-content {
-        background-color: transparent !important;
-      }
+        &::before {
+          opacity: 1 !important; /* الجراديانت يظهر بنعومة */
+        }
 
-      .p-togglebutton-label {
-        color: #032541 !important;
-        font-weight: bold;
+        .p-togglebutton-label {
+          color: #032541 !important;
+          font-weight: bold;
+        }
       }
     }
   }
 }
 
 /////////////////////////////
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px); /* الكارت هيبدأ من اليمين شوية */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0); /* يرجع لمكانه الطبيعي */
+  }
+}
+
 .trailer-cards {
   display: flex;
   gap: 16px;
@@ -180,6 +170,7 @@
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   padding-left: 25px;
+  animation: fadeInRight 0.5s ease-out forwards;
 }
 
 /* بدل إخفاء الشريط، نظبط شكله */
@@ -267,34 +258,7 @@
   font-size: 24px;
   cursor: pointer;
 }
-////////////////////
-// .legend {
-//   gap: 16px;
-//   list-style: none;
-
-//   &-item {
-//     display: flex;
-//     align-items: center;
-//     gap: 6px;
-//     font-size: 14px;
-
-//     &::before {
-//       content: '';
-//       width: 8px;
-//       height: 8px;
-//       border-radius: 50%;
-//       display: inline-block;
-//     }
-
-//     &.total::before {
-//       background: #4fd1a5; // اللون الأخضر
-//     }
-
-//     &.weekly::before {
-//       background: #f76c6c; // اللون الأحمر/الوردي
-//     }
-//   }
-// }
+//////////////////////////
 .leaderboard {
   padding: 25px 0;
   .wrapper {

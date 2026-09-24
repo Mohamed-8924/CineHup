@@ -1,0 +1,22 @@
+<div class="movie-card" [routerLink]="['/' + mediaType(), item().id]">
+  <div class="relative">
+    <img
+      [src]="
+        item().poster_path
+          ? 'https://image.tmdb.org/t/p/w500' + item().poster_path
+          : 'assets/images/placeholder.png'
+      "
+      [alt]="displayTitle()"
+    />
+    <!-- زرار المفضلة الطاير فوق البوستر -->
+    <button (click)="toggleFavorite($event)" class="favorite-btn">
+      <i
+        class="pi cursor-pointer text-2xl"
+        [ngClass]="isFavs() ? 'pi-heart-fill text-red-500' : 'pi-heart'"
+      >
+      </i>
+    </button>
+  </div>
+  <p class="font-bold">{{ displayTitle() }}</p>
+  <p class="release-date">{{ displayDate() | date: 'mediumDate' }}</p>
+</div>

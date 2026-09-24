@@ -1,0 +1,311 @@
+.filters-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+}
+.filter-card {
+  background: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
+  }
+}
+.arrow {
+  transition: transform 0.3s ease;
+  color: #666;
+  font-size: 0.8rem;
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+.filter-content {
+  margin-top: 15px;
+  border-top: 1px solid #e3e3e3;
+  padding-top: 15px;
+  label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 300;
+
+    span {
+      color: black;
+    }
+  }
+}
+
+.bord-top {
+  margin: 15px 0;
+  border-top: 1px solid #e3e3e3;
+
+  label {
+    margin-top: 20px;
+  }
+}
+/* --- تصميم الـ Custom Select المطابق لـ TMDB --- */
+
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #e9ecef; /* لون رصاصي فاتح زي موقع TMDB */
+  font-size: 0.95rem;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    background-color: #dde2e6;
+  }
+
+  &.focused {
+    border-color: #01b4e4;
+    box-shadow: 0 0 0 2px rgba(1, 180, 228, 0.2);
+    background-color: #ffffff;
+  }
+
+  .select-arrow {
+    font-size: 0.7rem;
+    color: #666;
+  }
+}
+
+.custom-select-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  padding: 0;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.custom-select-list li {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: #212529;
+  cursor: pointer;
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+
+  &.selected {
+    background-color: #01b4e4;
+    color: #ffffff;
+    font-weight: 600;
+
+    &:hover {
+      background-color: #01b4e4;
+    }
+  }
+}
+
+.dates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+
+  .date-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .date-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .date-input {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: #333;
+      background-color: #f8f9fa;
+      outline: none;
+      cursor: pointer;
+      transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+      &:hover {
+        border-color: #01b4e4; /* لون TMDB الأزرق الفاتح */
+      }
+
+      &:focus {
+        border-color: #01b4e4;
+        box-shadow: 0 0 5px rgba(1, 180, 228, 0.5);
+      }
+    }
+  }
+}
+
+.head-check label span {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.extra-checkboxes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+
+  .checkbox-item label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+
+    span {
+      cursor: pointer;
+      color: #333;
+    }
+  }
+}
+
+.genres-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.genre-btn {
+  padding: 5px 15px;
+  border: 1px solid #9e9e9e;
+  border-radius: 20px;
+  background-color: white;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.selected,
+  &:hover {
+    background-color: #01b4e4;
+    color: white;
+    border-color: #01b4e4;
+  }
+}
+
+.range-slider-container {
+  position: relative;
+  width: 100%;
+  height: 40px; /* مساحة كافية عشان تضغط براحتك */
+  display: flex;
+  align-items: center;
+
+  .slider-track-background {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0; /* لون الخلفية (0-10) */
+    border-radius: 4px;
+    z-index: 1;
+  }
+
+  .slider-track-active {
+    position: absolute;
+    height: 6px;
+    background-color: #00a8ff; /* لون الـ Rated (مثلا الأزرق الفاتح) */
+    border-radius: 4px;
+    z-index: 2;
+  }
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    position: absolute;
+    background: transparent;
+    pointer-events: none; /* مهم جداً عشان الـ 2 inputs يشتغلوا مع بعض */
+    z-index: 3;
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%); /* ده بيظبط السنترة بالملي وميخليش النقط تنزل لتحت */
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      pointer-events: auto; /* بنرجع التفاعل للنقطة بس */
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: #00a8ff;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    &::-moz-range-thumb {
+      pointer-events: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: #00a8ff;
+      cursor: pointer;
+      border: none;
+    }
+  }
+}
+
+.search-btn-wrapper {
+  margin-top: 20px;
+
+  .search-btn {
+    width: 100%;
+    background-color: #01b4e4;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 0;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #0093bb;
+    }
+    &:disabled {
+      background-color: #e4e4e4;
+      color: #a0a0a0;
+      cursor: default;
+
+      &:hover {
+        background-color: #e4e4e4;
+      }
+    }
+  }
+}

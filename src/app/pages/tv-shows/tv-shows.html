@@ -1,1 +1,34 @@
-<p>tv-shows works!</p>
+<div class="movies-page-layout">
+  <app-filter
+    mediaType="tv"
+    [sortOptions]="tvSortOptions()"
+    [(selectedSort)]="selectedTvSort"
+    [(genresTypes)]="tvGenres"
+    [(releaseTypes)]="tvReleaseTypes"
+    (searchApplied)="applyTvFilter($event)"
+  >
+    ></app-filter
+  >
+
+  <main class="movies-main-content">
+    <div class="movies-page">
+      <div class="movies-header">
+        <h1>{{ selectedCategoryLabel() }}</h1>
+        <p-selectbutton
+          [options]="categoriOptions"
+          [ngModel]="selectedCategory()"
+          (ngModelChange)="onCategoryChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        ></p-selectbutton>
+      </div>
+      <div class="movies-grid">
+        @for (tv of tvList(); track tv.id) {
+          <app-media-card [item]="tv"></app-media-card>
+        } @empty {
+          <P>Loading...</P>
+        }
+      </div>
+    </div>
+  </main>
+</div>

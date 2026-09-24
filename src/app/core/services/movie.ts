@@ -80,8 +80,8 @@ export class MovieService {
     });
   }
 
-  getMovieVideos(movieId: number) {
-    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/${movieId}/videos`, {
+  getMovieVideos(id: string | number) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/${id}/videos`, {
       headers: { Authorization: `Bearer ${environment.tmdbReadAccessToken}` },
     });
   }
@@ -104,4 +104,57 @@ export class MovieService {
     });
   }
 
+  // 1. دالة جلب الأفلام بالفلاتر
+  discoverMovies(filters: any) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/discover/movie`, {
+      headers: {
+        Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+      },
+      params: filters, // Angular هتاخد الأوبجكت ده وتحوله لـ Query Params أوتوماتيك
+    });
+  }
+
+  getMovieDetails(id: string) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/${id}`, {
+      headers: {
+        Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+      },
+    });
+  }
+
+  getMovieCredits(id: string) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/${id}/credits`, {
+      headers: {
+        Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+      },
+    });
+  }
+
+  getMovieRecommendations(id: string) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/{id}/recommendations`, {
+      headers: {
+        Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+      },
+    });
+  }
+
+  getMovieKeywords(id: string) {
+    return this.http.get<any>(`${environment.tmdbBaseUrl}/movie/${id}/keywords`, {
+      headers: {
+        Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+      },
+    });
+  }
+
+  discoverMoviesByKeyword(keywordId: string) {
+    // ببعت الـ id بتاع الكلمة في بارامتر اسمه with_keywords
+    return this.http.get<any>(
+      `${environment.tmdbBaseUrl}/discover/movie?with_keywords=${keywordId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${environment.tmdbReadAccessToken}`,
+        },
+      },
+    );
+  }
 }

@@ -1,0 +1,147 @@
+<div class="movie-details-layout">
+  @if (mediaDetails()) {
+    <div
+      class="movie-header"
+      [style.backgroundImage]="
+        'url(https://image.tmdb.org/t/p/original' + mediaDetails()?.backdrop_path + ')'
+      "
+    >
+      <div class="overlay">
+        <div class="content-container">
+          <!-- Movie poster -->
+          <div class="poster">
+            <img
+              [src]="'https://image.tmdb.org/t/p/w500' + mediaDetails()?.poster_path"
+              [alt]="mediaDetails()?.title"
+            />
+          </div>
+
+          <!--movie info -->
+          <div class="info">
+            <!-- Title and Date of Issue -->
+            <h1>
+              {{ displayTitle() }}
+              <span>({{ displayDate() | date: 'yyyy' }})</span>
+            </h1>
+
+            <!-- لو هعمل ايقونه ال favorite احطها هنا -->
+
+            <div class="flex align-items-center gap-3 my-3">
+              <div class="score">
+                User Score: <strong>{{ mediaDetails()?.vote_average | number: '1.1-1' }}</strong>
+              </div>
+              <div class="favorite">
+                <i
+                  class="pi cursor-pointer text-2xl"
+                  [ngClass]="
+                    favoritesService.isFavorite(mediaDetails()?.id)
+                      ? 'pi-heart-fill text-red-500'
+                      : 'pi-heart'
+                  "
+                  (click)="onToggleFavorite(mediaDetails())"
+                >
+                </i>
+              </div>
+              @if (trailerKey()) {
+                <button class="play-trailer-btn" (click)="isTrailerOpen.set(true)">
+                  <span>▶</span> Play Trailer
+                </button>
+              }
+            </div>
+
+            <!--tagline  -->
+            <p class="tagline">{{ mediaDetails()?.tagline }}</p>
+
+            <!-- Overview -->
+            <div class="overview">
+              <h3>Overview</h3>
+              <p>{{ mediaDetails()?.overview }}</p>
+
+              <!-- Genres -->
+              <div class="genres">
+                @for (genre of mediaDetails()?.genres; track genre.id) {
+                  <span class="genre-badge">{{ genre.name }}</span>
+                }
+              </div>
+              @if (mediaType() === 'tv') {
+                <div class="mt-4" style="color: #ddd">
+                  <strong>Seasons: {{ mediaDetails()?.number_of_seasons }}</strong> |
+                  <strong>Episodes: {{ mediaDetails()?.number_of_episodes }}</strong>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="loading">اتقل شويه ال "API" جايه ف السكه...</div>
+  }
+
+  <div class="cast-section">
+    <h2>Top Billed Cast</h2>
+    <div class="cast-grid">
+      @for (actor of cast(); track actor.id) {
+        <div class="cast-card">
+          @if (actor.profile_path) {
+            <img
+              [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path"
+              [alt]="actor.name"
+            />
+          } @else {
+            <div class="no-image">No Image</div>
+          }
+          <div class="cast-info">
+            <h4>{{ actor.name }}</h4>
+            <p>{{ actor.character }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="recommendations-section">
+    <h3>Or maybe something a bit more...</h3>
+    <div class="keywords-container">
+      <!-- اللوب بتاع الكلمات المفتاحية هنا -->
+      @for (keyword of keywords(); track keyword.id) {
+        <button
+          class="btn-pill"
+          [class.active]="activeKeywordId() === keyword.id"
+          (click)="onKeywordClick(keyword.id, keyword.name)"
+        >
+          {{ keyword.name }}
+        </button>
+      }
+    </div>
+    <div class="recommendations-grid">
+      @for (item of recommendations(); track item.id) {
+        <div class="recommendation-item relative">
+          <img
+            [src]="'https://image.tmdb.org/t/p/w200' + item.poster_path"
+            [alt]="item.title || item.name"
+            class="rec-poster"
+          />
+          <p class="rec-title">{{ item.title || item.name }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+@if (isTrailerOpen()) {
+  <div class="trailer-modal-overlay" (click)="isTrailerOpen.set(false)">
+    <div class="trailer-modal-content" (click)="$event.stopPropagation()">
+      <button class="close-model" (click)="isTrailerOpen.set(false)">
+        <i class="pi pi-times"></i>
+      </button>
+      <div class="video-container">
+        <iframe
+          [src]="safeTrailerUrl()"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+}

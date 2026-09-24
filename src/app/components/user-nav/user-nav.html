@@ -1,4 +1,4 @@
-<div class="card">
+<nav class="navbar" [class.hidden-nav]="isHidden()">
   <p-menubar [model]="items">
     <ng-template #start>
       <div class="logo my-0 mx-2">
@@ -43,4 +43,4 @@
       </div>
     </ng-template>
   </p-menubar>
-</div>
+</nav>

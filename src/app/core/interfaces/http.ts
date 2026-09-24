@@ -21,6 +21,6 @@ export interface LeaderboardUser {
   avatar: string;
   totalEdits: number;
   weeklyEdits: number;
-  totalPercentage: number;   // طول شريط التقدم بتاع All Time (كنسبة %)
-  weeklyPercentage: number;  // طول شريط التقدم بتاع This Week (كنسبة %)
+  totalPercentage: number; // طول شريط التقدم بتاع All Time (كنسبة %)
+  weeklyPercentage: number; // طول شريط التقدم بتاع This Week (كنسبة %)
 }

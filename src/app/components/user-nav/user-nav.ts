@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, HostListener } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
@@ -24,6 +24,29 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class UserNav implements OnInit {
   private router = inject(Router);
+
+  // سيجنال بيحدد هل الناف بار مخفي ولا لأ (افتراضيا ظاهر)
+  isHidden = signal<boolean>(false);
+
+  // متغير عادي نحفظ فيه مكان السكرول الأخير
+  lastScrollTop = 0;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // إحنا واقفين فين بالظبط في الشاشة دلوقتي
+    const currentScroll = window.scrollY || document.documentElement.scrollTop;
+
+    //لو نزلنا وعدينا 50 بيكسل
+    if (currentScroll > this.lastScrollTop && currentScroll > 50) {
+      this.isHidden.set(true); // اخفي
+    } else {
+      this.isHidden.set(false); // اظهر (لأنه بيسكرول لفوق)
+    }
+
+    // بحدث الرقم القديم بالرقم الجديد عشان المقارنة الجاية
+    // وبتأكد إنه ميبقاش بالسالب لو طلعت فوق خالص
+    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  }
 
   items: MenuItem[] | undefined;
 

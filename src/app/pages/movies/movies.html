@@ -1,23 +1,34 @@
-<div class="movies-page">
-  <div class="movies-header">
-    <h1>{{ selectedCategoryLabel() }}</h1>
-    <p-selectbutton
-      [options]="categoriOptions"
-      [ngModel]="selectedCategorys()"
-      (ngModelChange)="onCategoryChange($event)"
-      optionLabel="label"
-      optionValue="value"
-    ></p-selectbutton>
-  </div>
-  <div class="movies-grid">
-    @for (movie of categoryMovies()?.results; track movie.id) {
-      <div class="movie-card">
-        <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
-        <p class="font-bold">{{ movie.title }}</p>
-        <p class="release-date">{{ movie.release_date | date: 'mediumDate' }}</p>
+<div class="movies-page-layout">
+  <app-filter
+    mediaType="movie"
+    [sortOptions]="movieSortOptions()"
+    [(selectedSort)]="selectedMovieSort"
+    [(genresTypes)]="movieGenres"
+    [(releaseTypes)]="movieReleaseTypes"
+    (searchApplied)="applyMoviesFilter($event)"
+  >
+    ></app-filter
+  >
+
+  <main class="movies-main-content">
+    <div class="movies-page">
+      <div class="movies-header">
+        <h1>{{ selectedCategoryLabel() }}</h1>
+        <p-selectbutton
+          [options]="categoriOptions"
+          [ngModel]="selectedCategorys()"
+          (ngModelChange)="onCategoryChange($event)"
+          optionLabel="label"
+          optionValue="value"
+        ></p-selectbutton>
       </div>
-    } @empty {
-      <P>Loading...</P>
-    }
-  </div>
+      <div class="movies-grid">
+        @for (movie of moviesList(); track movie.id) {
+          <app-media-card [item]="movie"></app-media-card>
+        } @empty {
+          <P>No Movies found matching your criteria.</P>
+        }
+      </div>
+    </div>
+  </main>
 </div>

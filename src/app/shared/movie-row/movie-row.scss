@@ -23,8 +23,10 @@
       background: transparent !important;
       border: none !important;
       border-radius: 999px !important;
-      padding: 0.4rem 1rem;
+      padding: 2px 10px;
       color: #032541;
+      transition: all 0.5s ease-in-out !important;
+
       font-weight: bold;
 
       &:hover:not(.p-togglebutton-checked) {
@@ -41,6 +43,7 @@
       }
 
       .p-togglebutton-label {
+        transition: color 0.5s ease-in-out !important;
         color: #fff !important;
         font-weight: bold;
       }
@@ -77,6 +80,7 @@
   width: 180px;
   scroll-snap-align: start;
   animation: fadeIn 0.35s ease-in both;
+  cursor: pointer;
 }
 .movie-card img {
   width: 100%;
