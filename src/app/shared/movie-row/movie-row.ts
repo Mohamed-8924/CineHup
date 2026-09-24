@@ -13,11 +13,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FavoriteMovie, FavoritesMovieService } from '../../core/services/favorites';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-movie-row',
-  imports: [SelectButtonModule, FormsModule, CommonModule],
+  imports: [SelectButtonModule, FormsModule, CommonModule, DatePipe, RouterLink],
   templateUrl: './movie-row.html',
   styleUrl: './movie-row.scss',
 })

@@ -1,0 +1,53 @@
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+
+  .result-item {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    img {
+      width: 150px;
+      min-width: 150px;
+      height: auto;
+      object-fit: cover;
+    }
+    .result-info {
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h3 {
+        margin: 0 0 5px 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .release-date {
+        color: #999;
+        font-size: 0.9rem;
+        margin: 0 0 15px 0;
+      }
+      .overview {
+        color: #333;
+        font-size: 1rem;
+        line-height: 1.4;
+        margin: 0;
+
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+}

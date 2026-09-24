@@ -16,7 +16,11 @@
     @for (movie of movies; track movie.id) {
       <div class="movie-card">
         <div class="relative">
-          <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title" />
+          <img
+            [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+            [alt]="movie.title"
+            [routerLink]="['/movies', movie.id]"
+          />
           <button (click)="onToggleFavorite(movie)" class="favorite-btn">
             <i
               class="pi cursor-pointer text-2xl"
@@ -27,7 +31,10 @@
             </i>
           </button>
         </div>
-        <p class="font-bold">{{ movie.title }}</p>
+        <p class="font-bold mb-1">{{ movie.title }}</p>
+        <p class="text-sm text-gray-400 m-0">
+          {{ movie.release_date || movie.first_air_date | date: 'MMMM d, yyyy' }}
+        </p>
       </div>
     }
   </div>

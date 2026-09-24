@@ -1,13 +1,16 @@
 <div class="search-results">
   <h2>Search Results for "{{ query() }}"</h2>
   <div class="results-list">
-    @for (movie of results(); track movie.id) {
+    @for (item of results(); track item.id) {
       <div class="result-item">
-        <img [src]="'https://image.tmdb.org/t/p/w200' + movie.poster_path" [alt]="movie.title" />
+        <img
+          [src]="'https://image.tmdb.org/t/p/w200' + item.poster_path"
+          [alt]="item.title || item.name"
+        />
         <div class="result-info">
-          <h3>{{ movie.title }}</h3>
-          <p class="release-date">{{ movie.release_date }}</p>
-          <p class="overview">{{ movie.overview }}</p>
+          <h3>{{ item.title || item.name }}</h3>
+          <p class="release-date">{{ item.release_date || item.first_air_date | date: 'MMMM d, yyyy' }}</p>
+          <p class="overview">{{ item.overview }}</p>
         </div>
       </div>
     }

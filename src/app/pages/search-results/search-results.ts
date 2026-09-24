@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../../core/services/movie';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-search-results',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './search-results.html',
   styleUrl: './search-results.scss',
 })
@@ -21,7 +22,10 @@ export class SearchResults implements OnInit {
       this.query.set(q);
       if (q) {
         this.movieService.SearchMovies(q).subscribe((res: any) => {
-          this.results.set(res.results);
+          const filteredResults = res.results.filter(
+            (item: any) => item.media_type === 'movie' || item.media_type === 'tv',
+          );
+          this.results.set(filteredResults);
         });
       }
     });

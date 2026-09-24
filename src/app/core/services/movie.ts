@@ -98,7 +98,7 @@ export class MovieService {
   }
 
   SearchMovies(query: string) {
-    return this.http.get(`${environment.tmdbBaseUrl}/search/movie`, {
+    return this.http.get(`${environment.tmdbBaseUrl}/search/multi`, {
       headers: { Authorization: `Bearer ${environment.tmdbReadAccessToken}` },
       params: { query },
     });
